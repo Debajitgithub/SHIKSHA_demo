@@ -1,0 +1,255 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Background Gradient */
+body {
+    background: linear-gradient(to bottom, #003153, #000000); /* Prussian blue to black */
+    color: #fff;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Twinkling Stars Animation */
+@keyframes twinkle {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.twinkling-dots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.dot {
+    position: absolute;
+    border-radius: 50%;
+    background-color: white;
+    opacity: 0;
+    animation: twinkle 2s infinite;
+}
+
+.dot:nth-child(1) {
+    animation-delay: 0s;
+    top: 10%;
+    left: 20%;
+    width: 4px;
+    height: 4px;
+}
+
+.dot:nth-child(2) {
+    animation-delay: 0.5s;
+    top: 30%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+}
+
+.dot:nth-child(3) {
+    animation-delay: 1s;
+    top: 50%;
+    left: 70%;
+    width: 5px;
+    height: 5px;
+}
+
+.dot:nth-child(4) {
+    animation-delay: 1.5s;
+    top: 60%;
+    left: 80%;
+    width: 3px;
+    height: 3px;
+}
+
+.dot:nth-child(5) {
+    animation-delay: 2s;
+    top: 80%;
+    left: 10%;
+    width: 7px;
+    height: 7px;
+}
+
+/* More Dots */
+.dot:nth-child(6) {
+    animation-delay: 0.5s;
+    top: 20%;
+    left: 80%;
+    width: 4px;
+    height: 4px;
+}
+
+.dot:nth-child(7) {
+    animation-delay: 1s;
+    top: 70%;
+    left: 30%;
+    width: 5px;
+    height: 5px;
+}
+
+.dot:nth-child(8) {
+    animation-delay: 1.5s;
+    top: 40%;
+    left: 60%;
+    width: 6px;
+    height: 6px;
+}
+
+/* Wrapper for centering content */
+.wrapper {
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* SHIKSHA Title */
+h1 {
+    font-size: 50px;
+    font-weight: bold;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeInSlide 1s forwards;
+}
+
+/* Tagline */
+p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: fadeInSlide 1.2s forwards;
+}
+
+/* Button Container */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Buttons */
+button {
+    width: 80%;
+    max-width: 300px;
+    padding: 12px 20px;
+    margin: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    backdrop-filter: blur(5px);
+}
+
+button:hover {
+    background: white;
+    color: #007BFF;
+    transform: scale(1.05);
+}
+
+button:disabled {
+    background: rgba(255, 255, 255, 0.2);
+    cursor: not-allowed;
+}
+
+/* Input Fields */
+input {
+    padding: 12px;
+    width: 100%;
+    max-width: 350px;
+    margin: 10px 0;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Table Styles */
+table {
+    width: 90%;
+    margin: auto;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background: #007BFF;
+    color: white;
+}
+
+/* Login Form Styling */
+.form-container {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    table {
+        width: 100%;
+    }
+}

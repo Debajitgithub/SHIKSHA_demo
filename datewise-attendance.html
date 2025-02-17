@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datewise Attendance - SHIKSHA</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="wrapper">
+        <h1>Datewise Attendance</h1>
+        <input type="date" id="attendance-date" name="attendance-date">
+        <button onclick="generateCSV()">Download Attendance Report</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Attendance Status</th>
+                </tr>
+            </thead>
+            <tbody id="attendance-table-body">
+                <!-- Placeholder attendance rows -->
+                <!-- Will be populated dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Example student data (you can modify this or dynamically fetch it)
+        const students = [
+            { name: "John Doe", status: "Present" },
+            { name: "Jane Smith", status: "Absent" },
+            { name: "Ali Khan", status: "Present" },
+            { name: "Samantha Brown", status: "Present" },
+            { name: "Charlie Wilson", status: "Absent" },
+            { name: "Emily Davis", status: "Present" },
+            { name: "Michael Johnson", status: "Present" },
+            { name: "Sarah White", status: "Absent" },
+            { name: "David Clark", status: "Present" },
+            { name: "Emma Adams", status: "Absent" },
+            { name: "James Martinez", status: "Present" },
+            { name: "Mia Lee", status: "Absent" },
+            { name: "Daniel Perez", status: "Present" },
+            { name: "Olivia Hall", status: "Present" },
+            { name: "Lucas Scott", status: "Absent" },
+            { name: "Sophia Lopez", status: "Present" },
+            { name: "Ethan Walker", status: "Absent" },
+            { name: "Ava Carter", status: "Present" },
+            { name: "Isabella Lewis", status: "Present" },
+            { name: "Mason Young", status: "Absent" },
+            { name: "Liam King", status: "Present" },
+            { name: "Charlotte Baker", status: "Present" },
+            { name: "Amelia Nelson", status: "Absent" },
+            { name: "Benjamin Harris", status: "Present" },
+            { name: "Ella Perez", status: "Absent" },
+            { name: "Jacob Evans", status: "Present" },
+            { name: "Chloe Campbell", status: "Present" },
+            { name: "William Martinez", status: "Absent" },
+            { name: "Madison Robinson", status: "Present" },
+            { name: "Harper Moore", status: "Absent" }
+        ];
+
+        // Display student attendance in the table
+        function displayAttendance() {
+            const tableBody = document.getElementById('attendance-table-body');
+            tableBody.innerHTML = '';  // Clear table before adding new data
+            students.forEach(student => {
+                const row = document.createElement('tr');
+                const nameCell = document.createElement('td');
+                const statusCell = document.createElement('td');
+                nameCell.textContent = student.name;
+                statusCell.textContent = student.status;
+                row.appendChild(nameCell);
+                row.appendChild(statusCell);
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Function to generate CSV file for download
+        function generateCSV() {
+            // Get the selected date
+            const date = document.getElementById('attendance-date').value;
+            if (!date) {
+                alert('Please select a date');
+                return;
+            }
+
+            // Prepare CSV data
+            const headers = ['Student Name', 'Attendance Status'];
+            const csvRows = [headers.join(',')];
+            
+            students.forEach(student => {
+                csvRows.push([student.name, student.status].join(','));
+            });
+
+            // Create CSV content
+            const csvContent = csvRows.join('\n');
+
+            // Create a downloadable link
+            const hiddenElement = document.createElement('a');
+            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvContent);
+            hiddenElement.target = '_blank';
+            hiddenElement.download = `attendance_report_${date}.csv`;
+            hiddenElement.click();
+        }
+
+        // Initialize attendance display
+        displayAttendance();
+    </script>
+</body>
+</html>
