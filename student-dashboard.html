@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - SHIKSHA</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="twinkling-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    <div class="wrapper">
+        <h1>Welcome to Student Dashboard</h1>
+        <h2 id="student-name"></h2>
+        <button onclick="goToSyllabus()">Track Your Syllabus</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const roll = urlParams.get("roll");
+            document.getElementById("student-name").innerText = "Student Roll: " + roll;
+        });
+
+        function goToSyllabus() {
+            window.location.href = "syllabus.html";
+        }
+    </script>
+</body>
+</html>

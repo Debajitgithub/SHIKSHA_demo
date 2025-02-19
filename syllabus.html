@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syllabus Tracking - SHIKSHA</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function generateRandomTopics() {
+            const topics = [
+                "Linked Lists", "Amortized Time Complexity", "Quick Sort", "Merge Sort", 
+                "B-Trees", "B+ Trees", "Splay Trees", "Stacks", "Queues", "Binary Search Trees",
+                "Red-Black Trees", "Breadth-First Search", "Depth-First Search"
+            ];
+            
+            // Shuffle topics randomly (Fisher-Yates shuffle)
+            let shuffledTopics = topics.sort(() => Math.random() - 0.5);
+            
+            // Pick 2-4 topics randomly for the selected date
+            let selectedTopics = shuffledTopics.slice(0, Math.floor(Math.random() * 3) + 2);
+            
+            // Display topics in a list format
+            let syllabusContent = document.getElementById("syllabus-content");
+            syllabusContent.innerHTML = "<strong>Today's topics in DSA:</strong><ul>" + 
+                selectedTopics.map(topic => `<li>${topic}</li>`).join("") + "</ul>";
+        }
+    </script>
+</head>
+<body>
+    <div class="twinkling-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    <div class="wrapper">
+        <h1>Syllabus Tracking</h1>
+        <label for="date-picker">Select a Date:</label>
+        <input type="date" id="date-picker" onchange="generateRandomTopics()">
+        
+        <div id="syllabus-content" style="margin-top: 20px; font-size: 18px; font-weight: bold;"></div>
+    </div>
+
+</body>
+</html>
+

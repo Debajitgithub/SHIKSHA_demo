@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - SHIKSHA</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3eaf3;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+        }
+        button {
+            background: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .alert {
+            color: red;
+            font-weight: bold;
+            display: none;
+        }
+        .chart-container {
+    margin-top: 20px;
+    text-align: center; /* Add this line */
+    display: flex;
+    flex-direction: column; /* Stack heading and graph */
+    align-items: center; /* Center horizontally */
+}
+        canvas {
+            background: white;
+            border-radius: 5px;
+            padding: 10px;
+            width: 100%;
+            max-width: 600px;
+        }
+    </style>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div class="twinkling-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+<h1>Admin Dashboard</h1>
+<div class="container">
+    <h2>View Projector Stats</h2>
+    <label for="week-select">Select Week:</label>
+    <select id="week-select">
+        <option value="">Select a week</option>
+        <script>
+            const months = [
+                "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+            ];
+            const weekDropdown = document.getElementById("week-select");
+            let weekCounter = 1;
+            months.forEach((month) => {
+                for (let i = 1; i <= 4; i++) {
+                    let start = (i - 1) * 7 + 1;
+                    let end = start + 6;
+                    let option = document.createElement("option");
+                    option.value = weekCounter;
+                    option.textContent = `${month} ${start} - ${month} ${end}`;
+                    weekDropdown.appendChild(option);
+                    weekCounter++;
+                }
+            });
+        </script>
+    </select>
+    <button onclick="loadProjectorStats()">View Stats</button>
+
+    <p id="alert" class="alert">⚠️ High projector usage! Please keep up with maintenance.</p>
+
+    <div class="chart-container">
+        <canvas id="usageChart"></canvas>
+    </div>
+</div>
+
+<script>
+    let usageData = {
+        1: [6, 7, 5, 8, 9], 2: [5, 8, 9, 7, 6], 3: [4, 5, 6, 9, 10], 4: [3, 4, 8, 7, 8],  
+        5: [7, 6, 8, 5, 9], 6: [8, 9, 7, 6, 5], 7: [5, 4, 6, 8, 9], 8: [6, 7, 9, 5, 4],    
+        9: [8, 9, 6, 7, 5], 10: [7, 5, 8, 6, 9], 11: [6, 8, 9, 7, 5], 12: [5, 4, 6, 8, 7],  
+        13: [9, 8, 6, 5, 7], 14: [8, 9, 7, 6, 5], 15: [6, 5, 8, 7, 9], 16: [5, 4, 6, 8, 7], 
+        17: [7, 6, 8, 5, 9], 18: [8, 9, 7, 6, 5], 19: [5, 4, 6, 8, 9], 20: [6, 7, 9, 5, 4], 
+        21: [8, 9, 6, 7, 5], 22: [7, 5, 8, 6, 9], 23: [6, 8, 9, 7, 5], 24: [5, 4, 6, 8, 7], 
+    };
+
+    let usageChart;
+
+    function loadProjectorStats() {
+        const week = document.getElementById("week-select").value;
+        if (!week) {
+            alert("Please select a week.");
+            return;
+        }
+
+        let data = usageData[week];
+
+        // Check if any day has >8 hours of usage
+        if (Math.max(...data) > 8) {
+            document.getElementById("alert").style.display = "block";
+        } else {
+            document.getElementById("alert").style.display = "none";
+        }
+
+        // Get the canvas context
+        const ctx = document.getElementById("usageChart").getContext("2d");
+
+        // Destroy existing chart instance before creating a new one
+        if (usageChart) {
+            usageChart.destroy();
+        }
+
+        // Render bar chart
+        usageChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                datasets: [{
+                    label: "Projector Usage (Hours)",
+                    data: data,
+                    backgroundColor: "rgba(0, 123, 255, 0.6)"
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, max: 10 }
+                }
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
+

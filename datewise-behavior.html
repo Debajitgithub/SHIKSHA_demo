@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datewise Behavior - SHIKSHA</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="twinkling-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    <div class="wrapper">
+        <h1>Datewise Behavior Report</h1>
+        <label for="behavior-date">Select a Date:</label>
+        <input type="date" id="behavior-date" name="behavior-date">
+        <button onclick="generateBehaviorReport()">Generate Report</button>
+
+        <div id="behavior-report-section" style="display: none;">
+            <h2>Behavior Report for <span id="selected-behavior-date"></span></h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student (Roll No)</th>
+                        <th>Sleeping (mins)</th>
+                        <th>Reading (mins)</th>
+                        <th>Looking Forward (mins)</th>
+                        <th>Using Mobile (mins)</th>
+                        <th>Turning Around (mins)</th>
+                    </tr>
+                </thead>
+                <tbody id="behavior-table-body">
+                    <!-- Behavior data will be dynamically inserted here -->
+                </tbody>
+            </table>
+            <button onclick="downloadBehaviorCSV()">Download CSV</button>
+        </div>
+    </div>
+
+    <script>
+        const students = [
+            { roll: "HITK_001", name: "Aarav" }, { roll: "HITK_002", name: "Vihaan" },
+            { roll: "HITK_003", name: "Rohan" }, { roll: "HITK_004", name: "Arjun" },
+            { roll: "HITK_005", name: "Karthik" }, { roll: "HITK_006", name: "Aditya" },
+            { roll: "HITK_007", name: "Siddharth" }, { roll: "HITK_008", name: "Aniket" },
+            { roll: "HITK_009", name: "Rajiv" }, { roll: "HITK_010", name: "Manish" },
+            { roll: "HITK_011", name: "Kabir" }, { roll: "HITK_012", name: "Rishi" },
+            { roll: "HITK_013", name: "Nikhil" }, { roll: "HITK_014", name: "Pranav" },
+            { roll: "HITK_015", name: "Tanish" }, { roll: "HITK_016", name: "Harsh" },
+            { roll: "HITK_017", name: "Ishaan" }, { roll: "HITK_018", name: "Dev" },
+            { roll: "HITK_019", name: "Yash" }, { roll: "HITK_020", name: "Aryan" },
+            { roll: "HITK_021", name: "Krishna" }, { roll: "HITK_022", name: "Om" },
+            { roll: "HITK_023", name: "Rudra" }, { roll: "HITK_024", name: "Samar" },
+            { roll: "HITK_025", name: "Neel" }, { roll: "HITK_026", name: "Parth" },
+            { roll: "HITK_027", name: "Shreyas" }, { roll: "HITK_028", name: "Daksh" },
+            { roll: "HITK_029", name: "Vivaan" }, { roll: "HITK_030", name: "Sahil" }
+        ];
+
+        function generateBehaviorReport() {
+            const dateInput = document.getElementById('behavior-date').value;
+            if (!dateInput) {
+                alert("Please select a date first.");
+                return;
+            }
+
+            document.getElementById('selected-behavior-date').innerText = dateInput;
+            document.getElementById('behavior-report-section').style.display = "block";
+
+            const tableBody = document.getElementById('behavior-table-body');
+            tableBody.innerHTML = ""; // Clear previous data
+
+            students.forEach(student => {
+                const row = document.createElement('tr');
+                const nameCell = document.createElement('td');
+                const sleepCell = document.createElement('td');
+                const readCell = document.createElement('td');
+                const lookCell = document.createElement('td');
+                const mobileCell = document.createElement('td');
+                const turnCell = document.createElement('td');
+
+                nameCell.textContent = `${student.name} (${student.roll})`;
+                sleepCell.textContent = getRandomMinutes(0, 100);
+                readCell.textContent = getRandomMinutes(50, 200);
+                lookCell.textContent = getRandomMinutes(50, 250);
+                mobileCell.textContent = getRandomMinutes(0, 80);
+                turnCell.textContent = getRandomMinutes(0, 70);
+
+                row.appendChild(nameCell);
+                row.appendChild(sleepCell);
+                row.appendChild(readCell);
+                row.appendChild(lookCell);
+                row.appendChild(mobileCell);
+                row.appendChild(turnCell);
+                tableBody.appendChild(row);
+            });
+        }
+
+        function getRandomMinutes(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function downloadBehaviorCSV() {
+            const dateInput = document.getElementById('behavior-date').value;
+            if (!dateInput) {
+                alert("Please generate the report first.");
+                return;
+            }
+
+            const headers = ["Student (Roll No)", "Sleeping (mins)", "Reading (mins)", "Looking Forward (mins)", "Using Mobile (mins)", "Turning Around (mins)"];
+            const csvRows = [headers.join(",")];
+
+            document.querySelectorAll("#behavior-table-body tr").forEach(row => {
+                const cols = row.querySelectorAll("td");
+                const rowData = [...cols].map(col => col.textContent);
+                csvRows.push(rowData.join(","));
+            });
+
+            const csvContent = csvRows.join("\n");
+            const hiddenElement = document.createElement("a");
+            hiddenElement.href = "data:text/csv;charset=utf-8," + encodeURI(csvContent);
+            hiddenElement.target = "_blank";
+            hiddenElement.download = `behavior_report_${dateInput}.csv`;
+            hiddenElement.click();
+        }
+    </script>
+</body>
+</html>

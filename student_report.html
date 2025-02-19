@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Report - SHIKSHA</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3eaf3; /* Light Blue-Gray */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .wrapper {
+            text-align: center;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
+        }
+        h1, h2, h3 {
+            color: white; /* Changed Heading Color */
+        }
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+            border-radius: 5px;
+            width: 100%;
+            border: 1px solid #ccc;
+        }
+        button {
+            background: #007BFF;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        canvas {
+            max-width: 350px;
+            max-height: 350px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .alert {
+            display: none;
+            padding: 10px;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: red;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="twinkling-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    <div class="wrapper">
+        <h1>Student Report</h1>
+        <h2 id="student-name"></h2>
+
+        <label for="month-select">Select Month:</label>
+<select id="month-select">
+    <option value="1">January</option>
+    <option value="2">February</option>
+    <option value="3">March</option>
+    <option value="4">April</option>
+    <option value="5">May</option>
+    <option value="6">June</option>
+    <option value="7">July</option>
+    <option value="8">August</option>
+    <option value="9">September</option>
+    <option value="10">October</option>
+    <option value="11">November</option>
+    <option value="12">December</option>
+</select>
+
+
+        <button onclick="loadReport()">View Report</button>
+
+        <div id="alert-container"></div>
+
+        <div class="chart-container">
+            <div>
+                <h3>Attendance Overview</h3>
+                <canvas id="attendanceChart"></canvas>
+            </div>
+            <div>
+                <h3>Behavior Analysis</h3>
+                <canvas id="behaviorChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const studentRoll = urlParams.get("roll");
+            document.getElementById("student-name").innerText = "Report for Student: " + studentRoll;
+        });
+
+        function loadReport() {
+    let selectedMonth = document.getElementById("month-select").value;
+
+    // Mocked data for each month
+    let monthlyData = {
+        1: { attendance: 75, focused: 50, turningAround: 20, sleeping: 15, mobileUse: 15 }, // January
+        2: { attendance: 85, focused: 60, turningAround: 15, sleeping: 10, mobileUse: 15 }, // February
+        3: { attendance: 50, focused: 40, turningAround: 30, sleeping: 20, mobileUse: 10 }, // March
+        4: { attendance: 95, focused: 70, turningAround: 10, sleeping: 10, mobileUse: 10 }, // April
+        5: { attendance: 60, focused: 45, turningAround: 25, sleeping: 15, mobileUse: 15 }, // May
+        6: { attendance: 80, focused: 55, turningAround: 20, sleeping: 15, mobileUse: 10 }, // June
+        7: { attendance: 90, focused: 65, turningAround: 15, sleeping: 10, mobileUse: 10 }, // July
+        8: { attendance: 55, focused: 40, turningAround: 30, sleeping: 20, mobileUse: 10 }, // August
+        9: { attendance: 70, focused: 50, turningAround: 25, sleeping: 15, mobileUse: 10 }, // September
+        10: { attendance: 85, focused: 60, turningAround: 15, sleeping: 10, mobileUse: 15 }, // October
+        11: { attendance: 45, focused: 35, turningAround: 30, sleeping: 20, mobileUse: 15 }, // November
+        12: { attendance: 90, focused: 70, turningAround: 10, sleeping: 10, mobileUse: 10 } // December
+    };
+
+    let data = monthlyData[selectedMonth];
+
+    let ctx1 = document.getElementById("attendanceChart").getContext("2d");
+    new Chart(ctx1, {
+        type: "pie",
+        data: {
+            labels: ["Present", "Absent"],
+            datasets: [{
+                data: [data.attendance, 100 - data.attendance],
+                backgroundColor: ["#28a745", "#dc3545"]
+            }]
+        }
+    });
+
+    let ctx2 = document.getElementById("behaviorChart").getContext("2d");
+    new Chart(ctx2, {
+        type: "pie",
+        data: {
+            labels: ["Focused", "Turning Around", "Sleeping", "Mobile Phone Use"],
+            datasets: [{
+                data: [
+                    data.focused,
+                    data.turningAround,
+                    data.sleeping,
+                    data.mobileUse
+                ],
+                backgroundColor: ["#007bff", "#ffc107", "#fd7e14", "#dc3545"]
+            }]
+        }
+    });
+
+    let disruptiveBehavior = data.turningAround + data.sleeping + data.mobileUse;
+    let alertContainer = document.getElementById("alert-container");
+    alertContainer.innerHTML = ""; // Clear previous alerts
+
+    if (data.attendance < 60) {
+        let alertBox = document.createElement("div");
+        alertBox.className = "alert";
+        alertBox.innerText = "⚠️ Low Attendance Alert! This student has attended less than 60% of the days. Please notify them.";
+        alertContainer.appendChild(alertBox);
+        alertBox.style.display = "block";
+    }
+    if (disruptiveBehavior > 40) {
+        let alertBox = document.createElement("div");
+        alertBox.className = "alert";
+        alertBox.innerText = "⚠️ Behavior Alert! The student has more than 40% disruptive behavior. Please take action.";
+        alertContainer.appendChild(alertBox);
+        alertBox.style.display = "block";
+    }
+}
+
+    </script>
+
+</body>
+</html>
