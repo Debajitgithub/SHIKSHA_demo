@@ -7,106 +7,128 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="twinkling-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
     <div class="wrapper">
         <h1>Datewise Attendance</h1>
+        <label for="attendance-date">Select a Date:</label>
         <input type="date" id="attendance-date" name="attendance-date">
-        <button onclick="generateCSV()">Download Attendance Report</button>
+        <button onclick="generateReport()">Generate Report</button>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Student Name</th>
-                    <th>Attendance Status</th>
-                </tr>
-            </thead>
-            <tbody id="attendance-table-body">
-                <!-- Placeholder attendance rows -->
-                <!-- Will be populated dynamically -->
-            </tbody>
-        </table>
+        <div id="report-section" style="display: none;">
+            <h2>Attendance Report for <span id="selected-date"></span></h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Roll Number</th>
+                        <th>Student Name</th>
+                        <th>Attendance Status</th>
+                    </tr>
+                </thead>
+                <tbody id="attendance-table-body">
+                    <!-- Attendance data will be dynamically inserted here -->
+                </tbody>
+            </table>
+            <button onclick="downloadCSV()">Download CSV</button>
+        </div>
     </div>
 
     <script>
-        // Example student data (you can modify this or dynamically fetch it)
+        // Generate roll numbers HITK_001 to HITK_030
         const students = [
-            { name: "John Doe", status: "Present" },
-            { name: "Jane Smith", status: "Absent" },
-            { name: "Ali Khan", status: "Present" },
-            { name: "Samantha Brown", status: "Present" },
-            { name: "Charlie Wilson", status: "Absent" },
-            { name: "Emily Davis", status: "Present" },
-            { name: "Michael Johnson", status: "Present" },
-            { name: "Sarah White", status: "Absent" },
-            { name: "David Clark", status: "Present" },
-            { name: "Emma Adams", status: "Absent" },
-            { name: "James Martinez", status: "Present" },
-            { name: "Mia Lee", status: "Absent" },
-            { name: "Daniel Perez", status: "Present" },
-            { name: "Olivia Hall", status: "Present" },
-            { name: "Lucas Scott", status: "Absent" },
-            { name: "Sophia Lopez", status: "Present" },
-            { name: "Ethan Walker", status: "Absent" },
-            { name: "Ava Carter", status: "Present" },
-            { name: "Isabella Lewis", status: "Present" },
-            { name: "Mason Young", status: "Absent" },
-            { name: "Liam King", status: "Present" },
-            { name: "Charlotte Baker", status: "Present" },
-            { name: "Amelia Nelson", status: "Absent" },
-            { name: "Benjamin Harris", status: "Present" },
-            { name: "Ella Perez", status: "Absent" },
-            { name: "Jacob Evans", status: "Present" },
-            { name: "Chloe Campbell", status: "Present" },
-            { name: "William Martinez", status: "Absent" },
-            { name: "Madison Robinson", status: "Present" },
-            { name: "Harper Moore", status: "Absent" }
+            { roll: "HITK_001", name: "Aarav Sharma" },
+            { roll: "HITK_002", name: "Vihaan Gupta" },
+            { roll: "HITK_003", name: "Rohan Iyer" },
+            { roll: "HITK_004", name: "Arjun Nair" },
+            { roll: "HITK_005", name: "Karthik Reddy" },
+            { roll: "HITK_006", name: "Aditya Verma" },
+            { roll: "HITK_007", name: "Siddharth Choudhury" },
+            { roll: "HITK_008", name: "Aniket Joshi" },
+            { roll: "HITK_009", name: "Rajiv Menon" },
+            { roll: "HITK_010", name: "Manish Tiwari" },
+            { roll: "HITK_011", name: "Nishant Singh" },
+            { roll: "HITK_012", name: "Pranav Kulkarni" },
+            { roll: "HITK_013", name: "Harsh Venkatesh" },
+            { roll: "HITK_014", name: "Saurav Bhatnagar" },
+            { roll: "HITK_015", name: "Devansh Kapoor" },
+            { roll: "HITK_016", name: "Ananya Rao" },
+            { roll: "HITK_017", name: "Ishita Desai" },
+            { roll: "HITK_018", name: "Riya Ghosh" },
+            { roll: "HITK_019", name: "Tanisha Malhotra" },
+            { roll: "HITK_020", name: "Pooja Agarwal" },
+            { roll: "HITK_021", name: "Simran Mehta" },
+            { roll: "HITK_022", name: "Kavya Bansal" },
+            { roll: "HITK_023", name: "Sneha Pillai" },
+            { roll: "HITK_024", name: "Aditi Mishra" },
+            { roll: "HITK_025", name: "Nisha Saxena" },
+            { roll: "HITK_026", name: "Priya Bhattacharya" },
+            { roll: "HITK_027", name: "Meenal Srivastava" },
+            { roll: "HITK_028", name: "Shreya Patil" },
+            { roll: "HITK_029", name: "Sanjana Bose" },
+            { roll: "HITK_030", name: "Trisha Mukherjee" }
         ];
 
-        // Display student attendance in the table
-        function displayAttendance() {
+        function generateReport() {
+            const dateInput = document.getElementById('attendance-date').value;
+            if (!dateInput) {
+                alert("Please select a date first.");
+                return;
+            }
+
+            document.getElementById('selected-date').innerText = dateInput;
+            document.getElementById('report-section').style.display = "block";
+
             const tableBody = document.getElementById('attendance-table-body');
-            tableBody.innerHTML = '';  // Clear table before adding new data
+            tableBody.innerHTML = "";  // Clear previous data
+
             students.forEach(student => {
                 const row = document.createElement('tr');
+                const rollCell = document.createElement('td');
                 const nameCell = document.createElement('td');
                 const statusCell = document.createElement('td');
+
+                rollCell.textContent = student.roll;
                 nameCell.textContent = student.name;
-                statusCell.textContent = student.status;
+                statusCell.textContent = Math.random() > 0.2 ? "Present" : "Absent"; // 80% present, 20% absent
+
+                row.appendChild(rollCell);
                 row.appendChild(nameCell);
                 row.appendChild(statusCell);
                 tableBody.appendChild(row);
             });
         }
 
-        // Function to generate CSV file for download
-        function generateCSV() {
-            // Get the selected date
-            const date = document.getElementById('attendance-date').value;
-            if (!date) {
-                alert('Please select a date');
+        function downloadCSV() {
+            const dateInput = document.getElementById('attendance-date').value;
+            if (!dateInput) {
+                alert("Please generate the report first.");
                 return;
             }
 
-            // Prepare CSV data
-            const headers = ['Student Name', 'Attendance Status'];
-            const csvRows = [headers.join(',')];
-            
-            students.forEach(student => {
-                csvRows.push([student.name, student.status].join(','));
+            const headers = ["Roll Number", "Student Name", "Attendance Status"];
+            const csvRows = [headers.join(",")];
+
+            document.querySelectorAll("#attendance-table-body tr").forEach(row => {
+                const cols = row.querySelectorAll("td");
+                const rowData = [cols[0].textContent, cols[1].textContent, cols[2].textContent];
+                csvRows.push(rowData.join(","));
             });
 
-            // Create CSV content
-            const csvContent = csvRows.join('\n');
-
-            // Create a downloadable link
-            const hiddenElement = document.createElement('a');
-            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvContent);
-            hiddenElement.target = '_blank';
-            hiddenElement.download = `attendance_report_${date}.csv`;
+            const csvContent = csvRows.join("\n");
+            const hiddenElement = document.createElement("a");
+            hiddenElement.href = "data:text/csv;charset=utf-8," + encodeURI(csvContent);
+            hiddenElement.target = "_blank";
+            hiddenElement.download = `attendance_report_${dateInput}.csv`;
             hiddenElement.click();
         }
-
-        // Initialize attendance display
-        displayAttendance();
     </script>
 </body>
 </html>
