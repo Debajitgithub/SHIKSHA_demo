@@ -5,15 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher Dashboard - SHIKSHA</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3eaf3;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .wrapper {
+            text-align: center;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
+        }
+        h1, h2 {
+            color: white;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            border: none;
+            background: #007BFF;
+            color: white;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .section {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        select {
+            padding: 8px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
+    <div class="twinkling-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
     <div class="wrapper">
         <h1>Teacher Dashboard</h1>
+
         <div class="button-container">
             <button onclick="location.href='datewise-attendance.html'">View Datewise Attendance</button>
             <button onclick="location.href='datewise-behavior.html'">View Datewise Behavior</button>
-            <button onclick="location.href='overall-statistics.html'">View Overall Statistics</button>
+            <button onclick="location.href='monthly-statistics.html'">View Monthly Statistics</button>
+        </div>
+
+        <div class="section">
+            <h2>View Individual Student Data</h2>
+            <label for="student-select">Select Student:</label>
+            <select id="student-select">
+                <option value="HITK-001">Aarav (HITK-001)</option>
+                <option value="HITK-002">Vivaan (HITK-002)</option>
+                <option value="HITK-003">Ayaan (HITK-003)</option>
+                <option value="HITK-004">Vihaan (HITK-004)</option>
+                <option value="HITK-005">Arjun (HITK-005)</option>
+                <option value="HITK-006">Sai (HITK-006)</option>
+                <option value="HITK-007">Reyansh (HITK-007)</option>
+                <option value="HITK-008">Advik (HITK-008)</option>
+                <option value="HITK-009">Krishna (HITK-009)</option>
+                <option value="HITK-010">Ishaan (HITK-010)</option>
+                <option value="HITK-011">Kabir (HITK-011)</option>
+                <option value="HITK-012">Rudra (HITK-012)</option>
+                <option value="HITK-013">Aarush (HITK-013)</option>
+                <option value="HITK-014">Atharv (HITK-014)</option>
+                <option value="HITK-015">Shivansh (HITK-015)</option>
+                <option value="HITK-016">Anirudh (HITK-016)</option>
+                <option value="HITK-017">Lakshay (HITK-017)</option>
+                <option value="HITK-018">Pranav (HITK-018)</option>
+                <option value="HITK-019">Harsh (HITK-019)</option>
+                <option value="HITK-020">Eshaan (HITK-020)</option>
+                <option value="HITK-021">Rohan (HITK-021)</option>
+                <option value="HITK-022">Ayush (HITK-022)</option>
+                <option value="HITK-023">Dhruv (HITK-023)</option>
+                <option value="HITK-024">Harshit (HITK-024)</option>
+                <option value="HITK-025">Aryan (HITK-025)</option>
+                <option value="HITK-026">Samar (HITK-026)</option>
+                <option value="HITK-027">Yuvaan (HITK-027)</option>
+                <option value="HITK-028">Devansh (HITK-028)</option>
+                <option value="HITK-029">Vihaan (HITK-029)</option>
+                <option value="HITK-030">Parth (HITK-030)</option>
+            </select>
+            <button onclick="viewStudentData()">View Student Data</button>
         </div>
     </div>
+
+    <script>
+        function viewStudentData() {
+            const studentRoll = document.getElementById("student-select").value;
+            window.location.href = `student_report.html?roll=${studentRoll}`;
+        }
+    </script>
 </body>
 </html>
