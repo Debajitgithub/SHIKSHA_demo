@@ -14,11 +14,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 120vh;
+    overflow: auto;
     position: relative;
     animation: fadeIn 1s ease-in-out;
 }
+
 
 /* Twinkling Stars Animation */
 @keyframes twinkle {
@@ -32,7 +33,6 @@ body {
         opacity: 0;
     }
 }
-
 .twinkling-dots {
     position: absolute;
     top: 0;
@@ -115,6 +115,7 @@ body {
     width: 6px;
     height: 6px;
 }
+
 
 /* Wrapper for centering content */
 .wrapper {
